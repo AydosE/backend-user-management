@@ -6,11 +6,12 @@ const authRoutes = require("./routes/auth");
 const signinRoutes = require("./routes/signin");
 const userRoutes = require("./routes/users");
 const app = express();
+const allowedOrigins = ["https://frontend-user-management-five.vercel.app"];
 
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PATCH", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
