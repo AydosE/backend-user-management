@@ -5,19 +5,16 @@ const pool = require("../db");
 
 const router = express.Router();
 
-// Функция генерации JWT-токена
 const generateToken = (user) => {
   return jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
     expiresIn: "1h",
   });
 };
 
-// Маршрут входа (логин)
 router.post("/signin", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Проверяем пользователя
     const userRes = await pool.query("SELECT * FROM users WHERE email = $1", [
       email,
     ]);
@@ -27,7 +24,6 @@ router.post("/signin", async (req, res) => {
       return res.status(401).json({ message: "Неверный логин или пароль" });
     }
 
-    // Генерируем токен
     const token = generateToken(user);
     res.json({ token });
   } catch (error) {

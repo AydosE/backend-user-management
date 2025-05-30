@@ -4,7 +4,6 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// Получение списка пользователей
 router.get("/", authMiddleware, async (req, res) => {
   try {
     const result = await pool.query(
@@ -18,7 +17,6 @@ router.get("/", authMiddleware, async (req, res) => {
   }
 });
 
-// Обновление статуса пользователя (блокировка/разблокировка)
 router.patch("/:id", authMiddleware, async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
@@ -39,7 +37,6 @@ router.patch("/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// Удаление пользователя
 router.delete("/:id", authMiddleware, async (req, res) => {
   const { id } = req.params;
 

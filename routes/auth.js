@@ -28,16 +28,13 @@ router.post("/signin", async (req, res) => {
     if (!isValidPassword)
       return res.status(401).json({ message: "Неверный пароль" });
 
-    // Определяем timezone пользователя
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    // Обновляем last_login и timezone
     await pool.query(
       "UPDATE users SET last_login = NOW(), timezone = $1 WHERE id = $2",
       [timezone, user.rows[0].id]
     );
 
-    // Создаём токен
     const token = jwt.sign(
       { id: user.rows[0].id, email },
       process.env.JWT_SECRET,
