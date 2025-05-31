@@ -28,6 +28,20 @@ app.get("/", (req, res) => {
   res.send("User management API is running!");
 });
 
+app.get("/auth/status", (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    return res.status(401).json({ message: "Unautorized" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.json({ user: decoded });
+  } catch (error) {
+    res.status(401).json({ message: "Wrong token" });
+  }
+});
+
 app.get("/test", async (req, res) => {
   try {
     const result = await pool.query("SELECT NOW()");
