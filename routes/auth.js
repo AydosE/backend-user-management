@@ -21,6 +21,9 @@ router.post("/signin", async (req, res) => {
     if (user.rows.length === 0)
       return res.status(400).json({ message: "Пользователь не найден" });
 
+    if (user.rows[0].status === "blocked")
+      return res.status(403).json({ message: "Аккаунт заблокирован" });
+
     const isValidPassword = await bcrypt.compare(
       password,
       user.rows[0].password
