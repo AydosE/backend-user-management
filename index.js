@@ -34,10 +34,11 @@ app.get("/", (req, res) => {
 app.get("/auth/status", (req, res) => {
   const token = req.headers.authorization?.split(" ")[1];
   console.log("Received token:", token);
-  console.log(req);
 
   if (!token) {
-    return res.status(401).json({ message: "Unautorized" });
+    console.log("if works");
+
+    return res.status(401).json({ message: "Unauthorised" });
   }
 
   try {
