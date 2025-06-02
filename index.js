@@ -6,7 +6,10 @@ const authRoutes = require("./routes/auth");
 const signinRoutes = require("./routes/signin");
 const userRoutes = require("./routes/users");
 const app = express();
-const allowedOrigins = ["https://frontend-user-management-five.vercel.app"];
+const allowedOrigins = [
+  "https://frontend-user-management-five.vercel.app",
+  "http://localhost:5173",
+];
 
 app.use(express.json());
 app.use(
