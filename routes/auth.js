@@ -19,17 +19,17 @@ router.post("/signin", async (req, res) => {
       email,
     ]);
     if (user.rows.length === 0)
-      return res.status(400).json({ message: "Пользователь не найден" });
+      return res.status(400).json({ message: "User not found" });
 
     if (user.rows[0].status === "blocked")
-      return res.status(403).json({ message: "Аккаунт заблокирован" });
+      return res.status(403).json({ message: "Account is blocked" });
 
     const isValidPassword = await bcrypt.compare(
       password,
       user.rows[0].password
     );
     if (!isValidPassword)
-      return res.status(401).json({ message: "Неверный пароль" });
+      return res.status(401).json({ message: "Wrong password" });
 
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -46,8 +46,8 @@ router.post("/signin", async (req, res) => {
 
     res.json({ token });
   } catch (error) {
-    console.error("Ошибка входа:", error);
-    res.status(500).json({ message: "Ошибка сервера" });
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
@@ -60,7 +60,7 @@ router.post("/signup", async (req, res) => {
       [email]
     );
     if (userExists.rows.length > 0) {
-      return res.status(400).json({ message: "Пользователь уже существует" });
+      return res.status(400).json({ message: "User alredy exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -77,10 +77,10 @@ router.post("/signup", async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.status(201).json({ token, message: "Регистрация успешна" });
+    res.status(201).json({ token, message: "Registration successful" });
   } catch (error) {
-    console.error("Ошибка регистрации:", error);
-    res.status(500).json({ message: "Ошибка сервера" });
+    console.error("Registration error:", error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

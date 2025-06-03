@@ -4,9 +4,7 @@ const authMiddleware = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
-    return res
-      .status(401)
-      .json({ message: "Нет токена, авторизация отклонена" });
+    return res.status(401).json({ message: "No token, authorization denied" });
   }
 
   try {
@@ -14,7 +12,7 @@ const authMiddleware = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(403).json({ message: "Токен недействителен" });
+    res.status(403).json({ message: "Token is invalid" });
   }
 };
 

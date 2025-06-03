@@ -38,7 +38,7 @@ app.get("/auth/status", (req, res) => {
   if (!token) {
     console.log("if works");
 
-    return res.status(401).json({ message: "Unauthorised" });
+    return res.status(401).json({ message: "Unauthorized" });
   }
 
   try {
@@ -54,8 +54,8 @@ app.get("/test", async (req, res) => {
     const result = await pool.query("SELECT NOW()");
     res.json({ success: true, time: result.rows[0].now });
   } catch (error) {
-    console.error("Ошибка подключения:", error);
-    res.status(500).json({ success: false, message: "Ошибка базы данных" });
+    console.error("Connection error:", error);
+    res.status(500).json({ success: false, message: "Database error" });
   }
 });
 
